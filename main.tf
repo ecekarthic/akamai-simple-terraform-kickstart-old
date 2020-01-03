@@ -11,7 +11,7 @@ data "akamai_contract" "mycontract" {
 
 # Get the group id
 data "akamai_group" "mygroup"{
-	name="ENTER_GROUPNAME_HERE"
+        name="ENTER_GROUPNAME_HERE"
 }
 
 # Get the cpcode id
@@ -37,7 +37,7 @@ resource "akamai_dns_record" "www" {
     name       = "www.ENTER_DOMAIN_NAME_HERE"
     recordtype = "CNAME"
     active     = true
-    ttl        = 600 
+    ttl        = 600
     target     = ["ENTER_EDGE_HOSTNAME_HERE"]
 }
 
@@ -51,16 +51,16 @@ resource "akamai_edge_hostname" "edge-hostname" {
 
 # Create the property
 resource "akamai_property" "myProperty" {
-	name      = "ENTER_CONFIGURATION_NAME HERE"
-	group     = "${data.akamai_group.mygroup.id}"
-	contract  = "${data.akamai_contract.mycontract.id}"
-	product   = "prd_SPM"
-	cp_code   = "${data.akamai_cp_code.mycpcode.id}"
-	contact   = ["ENTER_EMAIL_HERE"]
-	hostnames = {"ENTER_UNIQUE_HOSTNAME_HERE" = "ENTER_EDGE_HOSTNAME_HERE"}
-	variables = "${akamai_property_variables.origin.json}"
-	rules     = "${data.local_file.rules.content}"
-}
+        name      = "ENTER_CONFIGURATION_NAME HERE"
+        group     = "${data.akamai_group.mygroup.id}"
+        contract  = "${data.akamai_contract.mycontract.id}"
+        product   = "prd_SPM"
+        cp_code   = "${data.akamai_cp_code.mycpcode.id}"
+        contact   = ["ENTER_EMAIL_HERE"]
+        hostnames = {"ENTER_UNIQUE_HOSTNAME_HERE" = "ENTER_EDGE_HOSTNAME_HERE"}
+        variables = "${akamai_property_variables.origin.json}"
+        rules     = "${data.local_file.rules.content}"
+	}
 
 # Read the rules.json file
 data "local_file" "rules" {
@@ -84,5 +84,4 @@ resource "akamai_property_variables" "origin" {
 resource "akamai_property_activation" "staging-activation" {
      property = "${akamai_property.myProperty.id}"
      network  = "STAGING"
-     contact  = ["ENTER_EMAIL_HERE"] 
-}
+     contact  = ["ENTER_EMAIL_HERE"]
